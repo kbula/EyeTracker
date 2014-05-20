@@ -1,5 +1,6 @@
 package com.BulaMeihsner.eyetracker;
 
+import android.R.bool;
 import android.content.Context;
 import android.provider.VoicemailContract;
 import android.util.AttributeSet;
@@ -12,17 +13,10 @@ import android.graphics.Rect;
 import android.widget.Toast;
 
 import org.opencv.*;
-import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
-import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
-import org.opencv.android.Utils;
-import org.opencv.core.*;
-import org.opencv.highgui.Highgui;
-import org.opencv.highgui.VideoCapture;
-import org.opencv.imgproc.Imgproc;
-import org.opencv.objdetect.CascadeClassifier;
+
 
 public class CameraCapture extends SurfaceView implements SurfaceHolder.Callback, Runnable {
 	private static final boolean DEBUG=true;
@@ -34,6 +28,9 @@ public class CameraCapture extends SurfaceView implements SurfaceHolder.Callback
 	private boolean[] cameraExists=new boolean[2];
 	
 	private boolean shouldStop=false;
+	
+	private int threshold=1;
+	private Boolean disableCamera= false;
 	
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(context) {
         @Override
@@ -102,7 +99,17 @@ public class CameraCapture extends SurfaceView implements SurfaceHolder.Callback
 		holder.addCallback(this);
 		holder.setType(SurfaceHolder.SURFACE_TYPE_NORMAL);	
 	}
-
+	
+	
+	public void setThreshold(int index)
+	{
+		this.threshold = threshold;
+	}
+	
+	public void viewCamera()
+	{
+		disableCamera = !disableCamera;
+	}
 	
     @Override
     public void run() {
@@ -121,34 +128,11 @@ public class CameraCapture extends SurfaceView implements SurfaceHolder.Callback
             		rect2 = new Rect(winWidth/2,0,winWidth-1, winWidth*3/4/2-1);
             	}
             	
-/*            	CascadeClassifier faceDetector = new CascadeClassifier("lbpcascade_frontalface.xml");
-            	MatOfRect faceDetections = new MatOfRect();
-            	Mat image = new Mat(bmp[0].getHeight(),bmp[0].getWidth(),CvType.CV_8U,new Scalar(4));
-            	Utils.bitmapToMat(bmp[0], image);
-            	faceDetector.detectMultiScale(image , faceDetections);
+            	bmp[0] = EyeTrackerHelper.findEye(bmp[0], threshold);
             	
-                for (org.opencv.core.Rect rect : faceDetections.toArray()) {
-                    Core.rectangle(image, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(0, 255, 0));
-                }
-            	
-                Utils.matToBitmap(image, bmp[0]);*/
-            	
-/*            	VideoCapture vc = new VideoCapture(0);
-            	vc.open(0);
-            	if(vc.isOpened())
-            		Toast.makeText(context, "kamera", Toast.LENGTH_SHORT).show();
-            	else 
-            		Toast.makeText(context, "brak kamery", Toast.LENGTH_SHORT).show();
-            	*/
-            	
-            	Mat image = new Mat();
-            	Utils.bitmapToMat(bmp[0], image);
-            	//Imgproc.cvtColor(image, image, Imgproc.COLOR_RGB2HSV);
-            	int[] xy  = EyeDetect.getContours(image, 1);
-            	Core.circle(image, new Point(xy[0],xy[1]), 5,new Scalar(0,0,255),-10);
-            	Utils.matToBitmap(image, bmp[0]);
-            	
+            	if(disableCamera == false)
             	canvas.drawBitmap(bmp[0],null,rect1,null);
+            
         		canvas.drawBitmap(bmp[1],null,rect2,null);
 
             	getHolder().unlockCanvasAndPost(canvas);
