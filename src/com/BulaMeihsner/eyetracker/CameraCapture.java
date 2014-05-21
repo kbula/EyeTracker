@@ -127,8 +127,12 @@ public class CameraCapture extends SurfaceView implements SurfaceHolder.Callback
             		rect1 = new Rect(0, 0, winWidth/2-1, winWidth*3/4/2-1);
             		rect2 = new Rect(winWidth/2,0,winWidth-1, winWidth*3/4/2-1);
             	}
-            	
+            	           	
             	bmp[0] = EyeTrackerHelper.findEye(bmp[0], threshold);
+            	
+            	//Czy szukac szachownicy (a docelowo czy kalibrowaæ) narazie na sztywno true
+            	boolean capturing = true;
+            	bmp[1] = ChessboardDetectorHelper.findChessboard(bmp[1], capturing);
             	
             	if(disableCamera == false)
             	canvas.drawBitmap(bmp[0],null,rect1,null);
