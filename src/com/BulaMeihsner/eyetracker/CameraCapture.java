@@ -155,7 +155,6 @@ public class CameraCapture extends SurfaceView implements SurfaceHolder.Callback
             			rect1 = new Rect(0,0,winWidth-40,winHeight-20);
             		}
             	}
-<<<<<<< HEAD
             	
 /*            	new Thread(new Runnable() {
 					
@@ -169,24 +168,15 @@ public class CameraCapture extends SurfaceView implements SurfaceHolder.Callback
             	
             	//Czy szukac szachownicy (a docelowo czy kalibrowaæ) narazie na sztywno true
 
-				bmp[0] = EyeTrackerHelper.findEye(bmp[0], threshold);
+				//bmp[0] = EyeTrackerHelper.findEye(bmp[0], threshold);
 				boolean capturing = true;
-				
-            	bmp[1] = ChessboardDetectorHelper.findChessboard(bmp[1], capturing);
+				bmp[1] = ChessboardDetectorHelper.findChessboard(bmp[1], capturing);
             	
-            	if(!disableCamera)
-=======
-            	           	
-            	bmp[0] = EyeTrackerHelper.findEye(bmp[0], threshold);
-            	
-            	//Czy szukac szachownicy (a docelowo czy kalibrowaæ) narazie na sztywno true
-            	boolean capturing = true;
-            	bmp[1] = ChessboardDetectorHelper.findChessboard(bmp[1], capturing);
+            	if(!disableCamera)          	           	
+            	bmp[0] =  EyeTrackerHelper.findEye(bmp[0], threshold);
             	
             	if(disableCamera == false)
->>>>>>> 82241b2c0a524bb367c27de0705eefb071549a5b
             	canvas.drawBitmap(bmp[0],null,rect1,null);
-            
         		canvas.drawBitmap(bmp[1],null,rect2,null);
 
             	getHolder().unlockCanvasAndPost(canvas);
