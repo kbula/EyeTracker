@@ -1,5 +1,7 @@
 package com.BulaMeihsner.eyetracker;
 
+import java.io.OutputStream;
+
 import android.R.bool;
 import android.content.Context;
 import android.provider.VoicemailContract;
@@ -8,7 +10,10 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.PorterDuff.Mode;
 import android.graphics.Rect;
 import android.widget.Toast;
 
@@ -109,24 +114,68 @@ public class CameraCapture extends SurfaceView implements SurfaceHolder.Callback
 	public void viewCamera()
 	{
 		disableCamera = !disableCamera;
+		winWidth=0;
 	}
 	
     @Override
     public void run() {
         while (true && (cameraExists[0]||cameraExists[1])) {
-
+        	
+/*         new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					try{
+			        	processCamera();
+			        	pixeltobmp(bmp[0],bmp[1]);
+					}catch(Exception ex)
+					{
+						Toast.makeText(context, "value :"+ ex.getMessage(), Toast.LENGTH_SHORT).show();
+					}
+				} 
+			}).start();*/
+         
         	processCamera();
         	pixeltobmp(bmp[0],bmp[1]);
-            
+         
         	Canvas canvas = getHolder().lockCanvas();
             if (canvas != null)
             {
             	if(winWidth==0){
             		winWidth=this.getWidth();
             		winHeight=this.getHeight();
-            		rect1 = new Rect(0, 0, winWidth/2-1, winWidth*3/4/2-1);
-            		rect2 = new Rect(winWidth/2,0,winWidth-1, winWidth*3/4/2-1);
+            		if(!disableCamera)
+            		{
+            			canvas.drawColor(Color.TRANSPARENT, Mode.CLEAR);
+            			rect1 = new Rect(0, 0, winWidth/2-1, winWidth*3/4/2-1);
+            			rect2 = new Rect(winWidth/2,0,winWidth-1, winWidth*3/4/2-1);
+            		}else
+            		{
+            			canvas.drawColor(Color.TRANSPARENT, Mode.CLEAR);
+            			rect1 = new Rect(0,0,winWidth-40,winHeight-20);
+            		}
             	}
+<<<<<<< HEAD
+            	
+/*            	new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						bmp[0] = EyeTrackerHelper.findEye(bmp[0], threshold);
+					}
+				}); */	
+            	
+            	
+            	//Czy szukac szachownicy (a docelowo czy kalibrowaæ) narazie na sztywno true
+
+				bmp[0] = EyeTrackerHelper.findEye(bmp[0], threshold);
+				boolean capturing = true;
+				
+            	bmp[1] = ChessboardDetectorHelper.findChessboard(bmp[1], capturing);
+            	
+            	if(!disableCamera)
+=======
             	           	
             	bmp[0] = EyeTrackerHelper.findEye(bmp[0], threshold);
             	
@@ -135,11 +184,14 @@ public class CameraCapture extends SurfaceView implements SurfaceHolder.Callback
             	bmp[1] = ChessboardDetectorHelper.findChessboard(bmp[1], capturing);
             	
             	if(disableCamera == false)
+>>>>>>> 82241b2c0a524bb367c27de0705eefb071549a5b
             	canvas.drawBitmap(bmp[0],null,rect1,null);
             
         		canvas.drawBitmap(bmp[1],null,rect2,null);
 
             	getHolder().unlockCanvasAndPost(canvas);
+            	//calculate.stop();
+            	
             }
             if(shouldStop){
             	shouldStop = false;  

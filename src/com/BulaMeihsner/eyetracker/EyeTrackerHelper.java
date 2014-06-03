@@ -12,10 +12,13 @@ public class EyeTrackerHelper {
 	
 	public static Bitmap findEye(Bitmap camera , int threshold)
 	{
+		
     	Mat image = new Mat();
+    	Mat imageScale = new Mat();
+    	Utils.bitmapToMat(Bitmap.createScaledBitmap(camera, 160, 120, false),imageScale);
     	Utils.bitmapToMat(camera, image);
-    	int[] xy  = EyeDetect.getContours(image, threshold);
-    	Core.circle(image, new Point(xy[0],xy[1]), 5,new Scalar(0,0,255),-10);
+    	int[] xy  = EyeDetect.getContours(imageScale, threshold);
+    	Core.circle(image, new Point(xy[0]*4,xy[1]*4), 25,new Scalar(0,0,255),-10);
     	Utils.matToBitmap(image, camera);
     	
     	return camera;
