@@ -6,7 +6,8 @@
     <com.BulaMeihsner.eyetracker.CameraCapture
         android:id="@+id/camera"
         android:layout_width="match_parent"
-        android:layout_height="261dp" />
+        android:layout_height="match_parent"
+        android:layout_weight="4" />
 
     <SeekBar
         android:id="@+id/seekBar"
