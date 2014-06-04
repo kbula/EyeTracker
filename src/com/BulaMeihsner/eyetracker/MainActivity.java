@@ -11,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.SeekBar;
 import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -25,6 +27,8 @@ public class MainActivity extends Activity implements OnSeekBarChangeListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_main);
+		
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		
 		cc = (CameraCapture)findViewById(R.id.camera);
 		seekBar = (SeekBar)findViewById(R.id.seekBar);
@@ -103,5 +107,6 @@ public class MainActivity extends Activity implements OnSeekBarChangeListener {
 		Toast.makeText(this, "value :"+seekBar.getProgress(), Toast.LENGTH_SHORT).show();
 		
 	}
+	
 
 }

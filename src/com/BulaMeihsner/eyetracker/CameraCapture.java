@@ -146,13 +146,11 @@ public class CameraCapture extends SurfaceView implements SurfaceHolder.Callback
             		winHeight=this.getHeight();
             		if(!disableCamera)
             		{
-            			canvas.drawColor(Color.TRANSPARENT, Mode.CLEAR);
             			rect1 = new Rect(0, 0, winWidth/2-1, winWidth*3/4/2-1);
             			rect2 = new Rect(winWidth/2,0,winWidth-1, winWidth*3/4/2-1);
             		}else
             		{
-            			canvas.drawColor(Color.TRANSPARENT, Mode.CLEAR);
-            			rect1 = new Rect(0,0,winWidth-40,winHeight-20);
+            			rect2 = new Rect(0,0,winWidth-280,winHeight-20);
             		}
             	}
             	
@@ -168,13 +166,11 @@ public class CameraCapture extends SurfaceView implements SurfaceHolder.Callback
             	
             	//Czy szukac szachownicy (a docelowo czy kalibrowaæ) narazie na sztywno true
 
-				//bmp[0] = EyeTrackerHelper.findEye(bmp[0], threshold);
+				bmp[0] = EyeTrackerHelper.findEye(bmp[0], threshold);
 				boolean capturing = true;
 				bmp[1] = ChessboardDetectorHelper.findChessboard(bmp[1], capturing);
-            	
-            	if(!disableCamera)          	           	
-            	bmp[0] =  EyeTrackerHelper.findEye(bmp[0], threshold);
-            	
+				
+				canvas.drawColor(Color.TRANSPARENT, Mode.CLEAR);
             	if(disableCamera == false)
             	canvas.drawBitmap(bmp[0],null,rect1,null);
         		canvas.drawBitmap(bmp[1],null,rect2,null);
