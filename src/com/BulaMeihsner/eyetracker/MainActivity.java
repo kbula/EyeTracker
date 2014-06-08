@@ -1,6 +1,10 @@
 package com.BulaMeihsner.eyetracker;
 
 
+import com.BulaMeihsner.data.DataBaseHelper;
+import com.BulaMeihsner.data.EyeData;
+import com.BulaMeihsner.data.SceneData;
+
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Dialog;
@@ -34,6 +38,10 @@ public class MainActivity extends Activity implements OnSeekBarChangeListener {
 		seekBar = (SeekBar)findViewById(R.id.seekBar);
 		seekBar.setOnSeekBarChangeListener(this);
 		
+/*		DataBaseHelper db= new DataBaseHelper(this);
+		db.addData(new EyeData(25.45f, 25.25f), new SceneData(48.98f, 0.4f));
+		db.addData(new EyeData(25.25f, 25.25f), new SceneData(48.98f, 4.4f));
+		db.addData(new EyeData(25.45f, 25.25f), new SceneData(48.98f, 2.4f));*/
 		
 /*		if (savedInstanceState == null) {
 			getFragmentManager().beginTransaction()
